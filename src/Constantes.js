@@ -1,0 +1,1 @@
+export  const  URLENDPOINT =  "http://10.62.149.8:8085/api/"

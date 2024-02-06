@@ -1,0 +1,15 @@
+.MenuContainer{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+    
+}
+.ButtonMenu{
+    margin: 10px;
+    width: 20%;
+
+}

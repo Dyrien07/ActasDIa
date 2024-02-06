@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route,Routes } from "react-router-dom";
+import "./App.css";
+import MenuPrincipal from "./Screens/MenuPrincipal/inex";
+import ArmadoActaExel from "./Components/ArmadoActaExcel/ArmadoActaExel";
+import EnvioActas from "./Components/EnvioActas/EnvioActas";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+            <BrowserRouter>
+                <Routes>
+                  <Route path="/" element={<MenuPrincipal/>}/>
+                    <Route path="/armadoacta" element={<ArmadoActaExel />} />
+                    <Route path="/envioacta" element={<EnvioActas />} />
+                </Routes>
+            </BrowserRouter>
+        </div>
+    );
 }
 
 export default App;
