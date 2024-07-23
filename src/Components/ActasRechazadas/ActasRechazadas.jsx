@@ -1,12 +1,43 @@
-import React from 'react'
-import CustomHeader from '../CustomHeader/CustomHeader'
+import React, { useState } from "react";
+import CustomHeader from "../CustomHeader/CustomHeader";
+import DatePicker from "react-datepicker";
 
 const ActasRechazadas = () => {
-  return (
-    <div>
+    const [startDate, setStartDate] = useState(new Date());
 
-<CustomHeader></CustomHeader>
-            
+    return (
+        <div>
+            <CustomHeader></CustomHeader>
+            <div style={
+                {display:"flex",
+                flexDirection:"row",
+                margin: 10,
+                justifyContent: "end",
+                alignItems: "center",
+
+        }}>
+            <div style={{
+                marginRight:10
+            }}>
+            <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    dateFormat={"dd/MM/yyyy"}
+                    todayButton={"hoy"}
+                />
+            </div>
+               
+
+                <DatePicker
+                
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    dateFormat={"dd/MM/yyyy"}
+                    todayButton={"hoy"}
+                />
+                <buton className="btn btn-primary">Buscar</buton>
+            </div>
+
             <table className="table table-hover">
                 <thead className="table-dark">
                     <tr>
@@ -20,12 +51,9 @@ const ActasRechazadas = () => {
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
-                {Datos.map((row) => (
-                    <DatoasActasDB data={row} />
-                ))}
             </table>
-    </div>
-  )
-}  
+        </div>
+    );
+};
 
-export default ActasRechazadas
+export default ActasRechazadas;

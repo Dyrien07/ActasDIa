@@ -43,6 +43,7 @@ const DateRangePicker = ({ setDatos }) => {
     const [chkPendiente, setchkPendiente] = useState(true);
     const [chkEnviado, setchkEnviado] = useState(false);
     const [allActas, setallActas] = useState(false);
+    const [rechazadas, setrechazadas] = useState(false);
 
     let fechaSQLDesde = moment(startDate).format("YYYY/MM/DD");
     let fechaSQLHasta = moment(endDate).format("YYYY/MM/DD");
@@ -89,12 +90,21 @@ const DateRangePicker = ({ setDatos }) => {
         setEstado(e.target.value);
         setchkEnviado(true);
         setchkPendiente(false);
+        setrechazadas(false)
     };
     const onClickPendiente = (e) => {
         setEstado(e.target.value);
         setchkEnviado(false);
         setchkPendiente(true);
+        setrechazadas(false)
     };
+    const onclickRecchazdo = (e) => {
+        setEstado(e.target.value);
+        setchkEnviado(false);
+        setchkPendiente(false);
+        setrechazadas(true);
+        
+    }
 
     return (
         <DateRangePickerWrapper>
@@ -139,8 +149,24 @@ const DateRangePicker = ({ setDatos }) => {
                     value={"Pendiente Envio"}
                 />
                 <label className="form-check-label" htmlFor="flexRadioDefault2">
-                    Pendiente Envio
+                    Pendiente
                 </label>
+                
+            </div>
+            <div className="form-check mrg-10 ">
+                <input
+                    onChange={onclickRecchazdo}
+                    className="form-check-input"
+                    type="radio"
+                    name="Rechazadas"
+                    id="flexRadioDefault2"
+                    checked={rechazadas}
+                    value={"Rechazado"}
+                />
+                <label className="form-check-label" htmlFor="flexRadioDefault2">
+                    Rechazadas
+                </label>
+                
             </div>
             <button
                 type="button"

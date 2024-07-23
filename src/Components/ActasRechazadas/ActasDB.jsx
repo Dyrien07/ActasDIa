@@ -1,12 +1,10 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import {
     EliminacionTotal,
     EnviarActa,
-    LimpiarPDF,
     ModificarActa,
     SendPdf,
     openHDR,
-    openHDRMod,
     verActasDetalle,
 } from "./EnvioHelpers";
 import Box from "@mui/material/Box";
@@ -23,7 +21,6 @@ import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
-import MoveUpIcon from '@mui/icons-material/MoveUp';
 
 const style = {
     position: "absolute",
@@ -57,28 +54,12 @@ const DatoasActasDB = ({ data, setDatos , ArrayDatos}) => {
     const [Pedido, setPedido] = useState("");
     const [Rectificacion, setRectificacion] = useState("");
     const [Tienda, setTienda] = useState("");
-    const [EstiloTabla, setEstiloTabla] = useState("");
-    const [blob, setBlob] = useState("");
 
-
-    const StyleTable = useCallback(() => {
-        if (data.Estado === "Enviado"){
-            setEstiloTabla("table-success");
-        }else if (data.Estado === "Pendiente Envio"){
-            setEstiloTabla("table-danger");
-        }else if (data.Estado === "Firmado"){
-            setEstiloTabla("table-primary");
-        }else if (data.Estado === "Rechazado"){
-            setEstiloTabla("table-warning");
-        }
-
-      }, [data.Estado]);
 
 useEffect(()=>{
- StyleTable()    
-}, [data, StyleTable])
 
-
+    
+}, [data.HDR])
 
     const handleFileChange = async (e, HDR) => {
         const file = e.target.files[0];
@@ -97,11 +78,9 @@ useEffect(()=>{
         }
     };
 
-    const GetDetalle = async (ID, setBlob) => {
+    const GetDetalle = async (ID) => {
         let detalle = await verActasDetalle(ID);
         setDetalleActas(detalle.data);
-         let blob = await openHDRMod(ID)
-         setBlob(blob);
         setmodalOpen(true);
     };
 
@@ -140,13 +119,16 @@ useEffect(()=>{
         }
     };
 
-
     return (
         <React.Fragment>
             <Toaster />
             <tbody className="table-group-divider">
                 <tr
-                    className = { EstiloTabla}
+                    className={
+                        data.Estado === "Enviado"
+                            ? "table-success"
+                            : "table-danger"
+                    }
                 >
                     <th scope="row">{data.Almacen}</th>
                     <td>{data.Tipo_Acta}</td>
@@ -183,40 +165,9 @@ useEffect(()=>{
                             </button>
                         )}
 
-                        {
-                            
-                            data.Estado === "Pendiente Envio" && (
-                            <button
-                            className="btn btn-light m-1" 
-                            onClick={() => LimpiarPDF(data.id)}
-                        >
-                            <MoveUpIcon color="error" />
-                        </button>
-                        )}
-                        {
-                            data.Estado === "Rechazado" && (
-                                <button
-                                className="btn btn-light"
-                                onClick={() => EnviarActa(data.HDR, data.id, data.Estado)}
-                            >
-                                <ForwardToInboxIcon color="primary" />
-                            </button>
-                            )
-                        }
-                        {
-                            data.Estado === "Rechazado" && (
-                                <button
-                                className="btn btn-light"
-                                onClick={() => LimpiarPDF(data.id)}
-                            >
-                                <MoveUpIcon color="error" />
-                            </button>
-                            )
-                        }
-
                         <button
                             className="btn btn-light mx-1"
-                            onClick={() => GetDetalle(data.id, setBlob)}
+                            onClick={() => GetDetalle(data.id)}
                         >
                             <ModeEditOutlineIcon color="success" />
                         </button>
@@ -230,7 +181,6 @@ useEffect(()=>{
                             </button>
                         )}
                     </td>
-                    <td>{data.Comentario}</td>
                 </tr>
                 <Modal
                     open={modalOpen}
@@ -256,16 +206,6 @@ useEffect(()=>{
                                     data={data}
                                 />
                             </div>
-                            {data.Estado === "Rechazado" && (
-                                <button
-                                    className=" btn btn-light"
-                                    onClick={() => setVisibleAddLine(true)}
-                                >
-                                    <AddIcon color="success"></AddIcon>Agregar
-                                    Linea
-                                </button>
-                                
-                            )}
 
                             {data.Estado === "Pendiente Envio" && (
                                 <button
@@ -275,20 +215,7 @@ useEffect(()=>{
                                     <AddIcon color="success"></AddIcon>Agregar
                                     Linea
                                 </button>
-
                             )}
-                             {
-                                blob ? (
-
-                                <object
-                                    data={blob}
-                                    type="application/pdf"
-                                    width="100%"
-                                    height="600px"
-                                    style={{ border: 'none' }}
-                                ></object>) : <h3>Sin PDF</h3>
-                            }
-
                             {VisibleAddLine && (
                                 <React.Fragment>
                                     <div className="form-floating mb-3">

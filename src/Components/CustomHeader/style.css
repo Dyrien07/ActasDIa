@@ -1,4 +1,23 @@
-.center{
-    align-items: "center";
-    justify-content: "center";
+.header-container {
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    align-items: center;
+    justify-content:  space-evenly;
+    background-color: white; /* Fondo blanco */
+}
+
+.logo {
+    height: 100px; /* Ajusta el tamaño según tus necesidades */
+}
+.logo-dia{
+    height: 40px;
+}
+
+.row {
+    margin: 0;
+}
+
+.btn {
+    align-items: center
 }

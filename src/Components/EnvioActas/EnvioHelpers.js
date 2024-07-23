@@ -63,6 +63,7 @@ export const editorSimple = (userPermisos, setEditorUserSimple) => {
 };
 
 export const EliminarLineaDetalle = async (idActa, IDLinea) => {
+    console.log(idActa, IDLinea);
     try {
         let Borrado = await axios.post(URLENDPOINT + "eliminar", {
             IDActa: idActa,
@@ -84,7 +85,7 @@ const EliminarTodo = async (IDacta) => {
     return Eliminacion;
 };
 
-export const EliminacionTotal = async (IDacta) => {
+export const EliminacionTotal = async (IDacta, setDatos, Datos) => {
     try {
         Swal.fire({
             title: "Esta seguro que desea eliminar el acta?",
@@ -174,19 +175,18 @@ export const SendPdf = async (file, ID) => {
     }
 };
 
-export const openHDR = async (
-    ID,
-    
-) => {
+export const openHDR = async (ID,) => {
     try {
         const response = await axios.post(URLENDPOINT + "consultar/HDR", {
             ID: ID,
         });
 
         const rutaArchivo = response.data;
+        const test1 = rutaArchivo.split("\\")[2];
+        console.log(test1);
 
         const archivoResponse = await axios({
-            url: URLENDPOINT + "consultar/getPDF/" + rutaArchivo, // Utiliza la ruta del archivo obtenida del servidor
+            url: URLENDPOINT + "consultar/getPDF/" + test1, // Utiliza la ruta del archivo obtenida del servidor
             method: "GET",
             responseType: "blob",
         });
@@ -210,23 +210,113 @@ export const openHDR = async (
         console.error("Error al abrir el archivo PDF:", error);
     }
 };
-
-export const EnviarActa = async (hdr, ID) => {
-    console.log(hdr);
+export const openHDRMod = async (ID,) => {
     try {
+        const response = await axios.post(URLENDPOINT + "consultar/HDR", {
+            ID: ID,
+        });
+
+        const rutaArchivo = response.data;
+        const test1 = rutaArchivo.split("\\")[2];
+        console.log(test1);
+
+        const archivoResponse = await axios({
+            url: URLENDPOINT + "consultar/getPDF/" + test1, // Utiliza la ruta del archivo obtenida del servidor
+            method: "GET",
+            responseType: "blob",
+        });
+
+        // Crea un objeto URL para el archivo PDF
+        const pdf = URL.createObjectURL(archivoResponse.data);
+        return pdf;
+
+        
+        
+    } catch (error) {
+        // Manejar errores aquí
+        console.error("Error al abrir el archivo PDF:", error);
+    }
+};
+export const EnviarActa = async (hdr, ID, Estado) => {
+
+    try {
+        if(Estado === "Rechazado"){
+            Swal.fire({
+                title: "Esta acta esta lista para ser reenviada?",
+                text: "Una vez enviada no podra ser editada nuevamente",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Si, enviar",
+            })
+                .then(async (result) => {
+                    if (result.isConfirmed) {
+                        let Send = await axios.post(URLENDPOINT + "crearactas/EnviarActa", {
+                            ID: ID,
+                        });
+                        if (Send.data === "OK") {
+                            Swal.fire({
+                                title: "Acta reenviada!",
+                                text: "Ya esta disponible para ser revisada por el cliente.",
+                                icon: "success",
+                            });
+                        } else {
+                            Swal.fire({
+                                title: "Ocurrio un Error",
+                                icon: "error",
+                            });
+                        }
+                    }
+                })
+                .catch((e) => {
+                    Swal.fire({
+                        title: e.message,
+                        icon: "error",
+                    });
+                });
+                return
+
+        }
         if (!hdr) {
             toast("Falta HDR", {
                 icon: <DocumentScannerIcon color="error" />,
             });
             return;
         }
-        let Send = await axios.post(URLENDPOINT +"crearactas/EnviarActa",{
+        let Send = await axios.post(URLENDPOINT + "crearactas/EnviarActa", {
+            ID: ID,
+        });
+        if (Send.data === "OK") {
+            toast.success(
+                "Se envio el acta correctamente\n\nYa se encuentra en Control Actas como pendiente firma"
+            );
+        } else {
+            toast.error("ocurrio un error");
+        }
+    } catch (error) {
+        toast.error(error.message);
+    }
+};
+
+const EliminarPDF = async(ID) => {
+    try{
+        let Eliminar = await axios.post(URLENDPOINT + "crearactas/EliminarPDF",{
             ID: ID,
         })
-         if(Send.data === "OK") {
-            toast.success("Se envio el acta correctamente\n\nYa se encuentra en Control Actas como pendiente firma");
-         }else{
-            toast.error("ocurrio un error")
-         }
-    } catch (error) {}
-};
+        return Eliminar.data
+
+    }catch (error) {
+        toast.error(error.message);
+
+    }
+}
+
+export  const LimpiarPDF = async(ID) => {
+ let limpiar = await EliminarPDF(ID);
+ if(limpiar === "OK"){
+    toast.success("El PDF se borro correctamente")
+ }else{
+    toast.error("Error al borrar el pdf");
+ }
+}

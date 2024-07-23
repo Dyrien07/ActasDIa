@@ -38,7 +38,7 @@ const ModalData = ({ Datos, setterModal, data }) => {
                 if (result.isConfirmed) {
                     let Borrado = await EliminarLineaDetalle(
                         Datos.ID_Acta,
-                        Datos.ID
+                        Datos.id
                     );
                     if (Borrado === "OK") {                        
                         swalWithBootstrapButtons.fire(
@@ -63,7 +63,7 @@ const ModalData = ({ Datos, setterModal, data }) => {
     return (
         <tbody className="table-group-divider">
             <tr className="">
-                <th scope="row">{Datos.Debito_Tranportista}</th>
+                <th scope="row">{"$"+Datos.Debito_Tranportista}</th>
                 <td>{Datos.Bultos_Faltantes}</td>
                 <td>{fechaFormateada}</td>
                 <td>{Datos.Pedido}</td>
@@ -71,6 +71,11 @@ const ModalData = ({ Datos, setterModal, data }) => {
                 <td>{Datos.Tienda}</td>
                 <td>
                     {  data.Estado === "Pendiente Envio" &&(
+                        <button className="btn" onClick={DeleteRow}>
+                            <DeleteIcon color="error"></DeleteIcon>
+                        </button>
+                    )}
+                    {  data.Estado === "Rechazado" &&(
                         <button className="btn" onClick={DeleteRow}>
                             <DeleteIcon color="error"></DeleteIcon>
                         </button>

@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, {   useState } from "react";
 import DatoasActasDB from "./DatoasActasDB";
 import CustomHeader from "../CustomHeader/CustomHeader";
 import DateRangePicker from "../DatePickerDH/DatePickerDH";
@@ -7,11 +7,13 @@ import "./style.css";
 const EnvioActas = () => {
     const [Datos, setDatos] = useState([]);
 
+
+    
     return (
         <div>
             <CustomHeader></CustomHeader>
 
-            <DateRangePicker setDatos={setDatos} />
+            <DateRangePicker setDatos={setDatos} Datos={Datos} />
 
             <div className="d-flex justify-content-center align-items-center">
                 <table className="table table-hover table-group-divider margin-inline  table-bordered">
@@ -25,6 +27,8 @@ const EnvioActas = () => {
                             <th scope="col">Estado</th>
                             <th scope="col">HDR</th>
                             <th scope="col">Acciones</th>
+                            <th scope="col">Comentarios</th>
+
                         </tr>
                     </thead>
                     {Datos.length === 0 && (
@@ -35,7 +39,7 @@ const EnvioActas = () => {
                         </tr>
                     )}
                     {Datos.map((row) => (
-                        <DatoasActasDB data={row} key={row.ID} />
+                        <DatoasActasDB data={row} key={row.ID} setDatos={setDatos} ArrayDatos={Datos} />
                     ))}
                 </table>
             </div>

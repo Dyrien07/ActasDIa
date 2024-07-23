@@ -25,36 +25,31 @@ const ModalCerrarACta = async (Datos, Nombre) => {
             .then(async (result) => {
                 if (result.isConfirmed) {
                     let numeroID = await GrabarActa(Nombre, Datos);
-                    console.log(numeroID)
 
-                    if (numeroID.Respuesta.msj === "OK") {
+                    if (numeroID.msj === "OK") {
                         swalWithBootstrapButtons.fire(
                             "Acta creada",
                             "Ya disponoble en el modulo dle envio de actas.",
                             "success"
                         );
-
-                    }else{
+                    } else {
                         Swal.fire({
                             title: "Hubo un error",
-                            icon: "error"
-                        })
+                            icon: "error",
+                        });
                     }
-                } else if (
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
                     swalWithBootstrapButtons.fire(
                         "Se cancelo la accion",
                         "",
                         "error"
                     );
                 }
-            }).catch(()=>{
-                return null 
+            })
+            .catch(() => {
+                return null;
             });
-    } catch (e) {
-        
-    }
+    } catch (e) {}
 };
 
 const GrabarActa = async (Nombre, Datos) => {
@@ -67,7 +62,7 @@ const GrabarActa = async (Nombre, Datos) => {
     } catch (error) {
         console.log(error);
         Swal.fire({
-            title: error.response.data.msj,
+            title: error.response.data.Respuesta.msj,
             icon: "error",
         });
     }
