@@ -1,3 +1,3 @@
-export  const  URLENDPOINT =  "http://localhost:8086/api/"
-export const URLAUTH = "http://10.62.120.52:8086/auth"
-export  const ROUTE = "/Actas-ID"
+export  const  URLENDPOINT =  process.env.REACT_APP_API_URL
+export const URLAUTH = process.env.REACT_APP_URL_AUTH
+export  const ROUTE = process.env.REACT_APP_ROUTE
