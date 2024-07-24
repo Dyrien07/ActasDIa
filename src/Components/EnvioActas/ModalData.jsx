@@ -5,12 +5,7 @@ import {  EliminarLineaDetalle } from "./EnvioHelpers";
 
 
 const ModalData = ({ Datos, setterModal, data }) => {
-    const fecha = new Date(Datos.Fecha);
-    const año = fecha.getFullYear().toString().slice(-2);
-    const mes = (fecha.getMonth() + 1).toString().padStart(2, "0");
-    const dia = fecha.getDate().toString().padStart(2, "0");
-
-    let fechaFormateada = dia +"-"+mes + "-" + año
+  
 
 
 
@@ -65,7 +60,7 @@ const ModalData = ({ Datos, setterModal, data }) => {
             <tr className="">
                 <th scope="row">{"$"+Datos.Debito_Tranportista}</th>
                 <td>{Datos.Bultos_Faltantes}</td>
-                <td>{fechaFormateada}</td>
+                <td>{Datos.Fecha}</td>
                 <td>{Datos.Pedido}</td>
                 <td>{Datos.Rectificacion}</td>
                 <td>{Datos.Tienda}</td>

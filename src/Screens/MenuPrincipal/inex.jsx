@@ -59,9 +59,11 @@ const MenuPrincipal = () => {
                             margin: "10px",
                         }}
                     />
-                    <Typography variant="h5" component="h1" gutterBottom>
-                    
-                    </Typography>
+                    <Typography
+                        variant="h5"
+                        component="h1"
+                        gutterBottom
+                    ></Typography>
                     <Button
                         component={Link}
                         to={ROUTE + "/armadoacta"}
@@ -81,6 +83,8 @@ const MenuPrincipal = () => {
                         Envío de Actas
                     </Button>
                     <Button
+                        component={Link}
+                        to={ROUTE + "/getInfo"}
                         variant="contained"
                         color="info"
                         sx={{ marginBottom: "10px", width: "300px" }}

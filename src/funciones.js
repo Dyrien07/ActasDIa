@@ -1,5 +1,5 @@
 import axios from "axios";
-import { URLAUTH, URLENDPOINT } from "./Constantes";
+import { URLAUTH } from "./Constantes";
 import toast from "react-hot-toast";
 import secureLocalStorage from "react-secure-storage";
 
