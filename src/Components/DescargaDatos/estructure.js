@@ -5,6 +5,9 @@ import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import HourglassFullIcon from '@mui/icons-material/HourglassFull';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import ContentPasteOffIcon from '@mui/icons-material/ContentPasteOff';
+import { openHDR } from "../EnvioActas/EnvioHelpers";
 
 export  const Columns = [
     {
@@ -74,6 +77,22 @@ export  const Columns = [
         headerName: "HDR",
         width: "90",
         flex: 0.3,
+        renderCell: (params)=>{
+            if(params.value === true) {
+                return (
+                    <IconButton color="success" size="small">
+                        <FileDownloadIcon onClick={()=>openHDR(params.id)}/>
+                    </IconButton>
+                )
+            }else {
+                return (
+                    <IconButton color="danger" size="small">
+                        <ContentPasteOffIcon/>
+                    </IconButton>
+                )
+            }
+
+        },
        
     },
     
