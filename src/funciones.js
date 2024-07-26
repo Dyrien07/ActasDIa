@@ -10,7 +10,6 @@ const Ingresar = async (user, pw, setter) => {
             pass: pw,
             sp: "Validar_Usuario"
         });
-        console.log(login.data);
         if (login.data.ID > 0) {
             toast.success("Ingreso correcto");
             setTimeout(() => {

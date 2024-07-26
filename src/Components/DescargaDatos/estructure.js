@@ -1,5 +1,4 @@
 
-
 import IconButton from "@mui/material/IconButton";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -7,7 +6,7 @@ import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import HourglassFullIcon from '@mui/icons-material/HourglassFull';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import ContentPasteOffIcon from '@mui/icons-material/ContentPasteOff';
-import { openHDR } from "../EnvioActas/EnvioHelpers";
+import { generarActaCompleta } from "./helpers";
 
 export  const Columns = [
     {
@@ -43,7 +42,7 @@ export  const Columns = [
         field: "Estado",
         headerName: "Estado",
         width: "90",
-        flex: 1,
+        flex: 0.8,
         renderCell: (params) => {
             if (params.value === "Enviado") {
                 return (
@@ -74,14 +73,14 @@ export  const Columns = [
     },
     {
         field: "HDR",
-        headerName: "HDR",
+        headerName: "Descargar Acta",
         width: "90",
-        flex: 0.3,
+        flex: 0.8,
         renderCell: (params)=>{
             if(params.value === true) {
                 return (
                     <IconButton color="success" size="small">
-                        <FileDownloadIcon onClick={()=>openHDR(params.id)}/>
+                        <FileDownloadIcon onClick={()=>generarActaCompleta(params.id)}/>
                     </IconButton>
                 )
             }else {
@@ -123,7 +122,7 @@ export  const style = {
     },
     {
         field: "Fecha",
-        HeaderName: "Fecha",
+        headerName: "Fecha",
         flex: 1,
     },
     {
@@ -133,12 +132,12 @@ export  const style = {
     },
     {
         field: "Rectificacion",
-        HeaderName: "Rectificacion",
+        headerName: "Rectificacion",
         flex: 1,
     },
     {
         field: "Tienda",
-        HeaderName: "Tienda",
+        headerName: "Tienda",
         flex: 1,
     },
 ];
